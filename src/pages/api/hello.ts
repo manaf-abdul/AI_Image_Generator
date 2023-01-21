@@ -8,17 +8,22 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-type Data = {
-  photo: any
-}
+// type Data = {
+//   photo: any
+// }
+
+// type Data = {
+//   photo: any
+// }
 
 
 // const users: User[] = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
+ try {
   let { query } = req.body;
   console.log(query)
 
@@ -31,4 +36,8 @@ export default async function handler(
 
   const image = aiResponse.data.data[0].b64_json;
   res.status(200).json({ photo: image});
+ } catch (error) {
+  console.error(error);
+  res.status(500).send(error);
+ }
 }
